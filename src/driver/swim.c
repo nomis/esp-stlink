@@ -46,6 +46,7 @@
 #define SWIM_CLOCK 10
 #define BIT_HALF_TIME (9 * SWIM_CLOCK) // We start the read after 9 swim clocks and use this input.
 #define BIT_TOTAL_PERIOD_LENGTH (22 * SWIM_CLOCK)
+#define INTER_BIT_TIME (17 * SWIM_CLOCK)
 
 // Read Set Interrupt Level
 #define RSIL(r) __asm__ __volatile__("rsil %0,15 ; esync" : "=a"(r))
@@ -181,11 +182,11 @@ static int read_byte() {
   uint32_t parity = 0;
   uint32_t i;
   for (i = 0; i < 9; i++) {
-    sync_ccount(next + 18 * SWIM_CLOCK);
+    sync_ccount(next + INTER_BIT_TIME);
     int bit = read_bit(&next);
     if (bit == SWIM_ERROR_READ_BIT_TIMEOUT) {
       // indicate which bit failed (for debugging)
-      return -i - 20;
+      return -i - 0x20;
     }
     result = result << 1 | !!bit;
     parity ^= result;
