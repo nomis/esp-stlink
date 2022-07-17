@@ -18,7 +18,7 @@
 #include "driver/uart.h"
 
 #include "driver/uart_register.h"
-#include "espmissingincludes.h"
+//#include "espmissingincludes.h"
 #include "ets_sys.h"
 #include "osapi.h"
 #include "os_type.h"
